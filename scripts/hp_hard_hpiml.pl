@@ -139,4 +139,4 @@ my %states = (
 	'CRITICAL' => 'CRITICAL'
 	);
 
-print "- hp.hardware.hpiml $exit_codes{$states{$iml_worst_event{level}}}\n";
+print "$exit_codes{$states{$iml_worst_event{level}}}\n";

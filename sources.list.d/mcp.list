@@ -1,0 +1,2 @@
+deb http://downloads.linux.hpe.com/SDR/repo/mcp stretch/10.80 non-free
+deb http://downloads.linux.hpe.com/SDR/repo/mcp buster/current non-free

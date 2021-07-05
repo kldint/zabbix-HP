@@ -1,0 +1,12 @@
+Defaults:zabbix !requiretty
+Cmnd_Alias HP_HARD_FAN = /etc/zabbix/scripts/hp_hard_fan.pl
+Cmnd_Alias HP_HARD_PWR = /etc/zabbix/scripts/hp_hard_pwr.pl
+Cmnd_Alias HP_HARD_RAID = /etc/zabbix/scripts/hp_hard_raid.pl
+Cmnd_Alias HP_HARD_TEMP = /etc/zabbix/scripts/hp_hard_temp.pl
+Cmnd_Alias HP_HARD_HPIML = /etc/zabbix/scripts/hp_hard_hpiml.pl
+zabbix ALL= (ALL) NOPASSWD: HP_HARD_FAN, HP_HARD_PWR, HP_HARD_RAID, HP_HARD_TEMP, HP_HARD_HPIML
+Defaults!HP_HARD_FAN !logfile, !syslog, !pam_session
+Defaults!HP_HARD_PWR !logfile, !syslog, !pam_session
+Defaults!HP_HARD_RAID !logfile, !syslog, !pam_session
+Defaults!HP_HARD_TEMP !logfile, !syslog, !pam_session
+Defaults!HP_HARD_HPIML !logfile, !syslog, !pam_session

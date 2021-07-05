@@ -1,118 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.2</version>
-    <date>2017-08-07T06:47:12Z</date>
+    <version>5.4</version>
+    <date>2021-07-05T18:35:39Z</date>
     <groups>
         <group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
             <name>Templates</name>
         </group>
     </groups>
     <templates>
         <template>
+            <uuid>7eded93c808e456ebb888cb09e46c212</uuid>
             <template>BBC_TPL_HP_Hardware_full</template>
-            <name>BBC Template - HP Hardware</name>
-            <description/>
-            <groups>
-                <group>
-                    <name>Templates</name>
-                </group>
-            </groups>
-            <applications>
-                <application>
-                    <name>HP Hardware IML</name>
-                </application>
-            </applications>
-            <items>
-                <item>
-                    <name>HP IML status</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>hp.hardware.hpiml</key>
-                    <delay>0</delay>
-                    <history>7</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>HP Hardware IML</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-                <item>
-                    <name>HP IML hpasmcli process number</name>
-                    <type>7</type>
-                    <snmp_community/>
-                    <multiplier>0</multiplier>
-                    <snmp_oid/>
-                    <key>proc.num[hpasmcli]</key>
-                    <delay>720</delay>
-                    <history>90</history>
-                    <trends>365</trends>
-                    <status>0</status>
-                    <value_type>3</value_type>
-                    <allowed_hosts/>
-                    <units/>
-                    <delta>0</delta>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <data_type>0</data_type>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <description/>
-                    <inventory_link>0</inventory_link>
-                    <applications>
-                        <application>
-                            <name>HP Hardware IML</name>
-                        </application>
-                    </applications>
-                    <valuemap/>
-                    <logtimefmt/>
-                </item>
-            </items>
-            <discovery_rules/>
-            <httptests/>
-            <macros/>
+            <name>BBC Template - HP Hardware  by Zabbix agent active custom</name>
             <templates>
                 <template>
                     <name>BBC_TPL_HP_Hardware_fans</name>
@@ -127,57 +27,60 @@
                     <name>BBC_TPL_HP_Hardware_temp</name>
                 </template>
             </templates>
-            <screens/>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>6162245366094dbaa9d33a0de15094ea</uuid>
+                    <name>HP IML status</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>hp.hardware.hpiml</key>
+                    <delay>15m</delay>
+                    <history>7d</history>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>HP Hardware IML</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>4c5450cbd4f748ee9fdfa501b3b597ee</uuid>
+                            <expression>min(/BBC_TPL_HP_Hardware_full/hp.hardware.hpiml,#3)&gt;0</expression>
+                            <name>HP IML isn't clean</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                        <trigger>
+                            <uuid>55952f0a708a449a92ad3e5105755d46</uuid>
+                            <expression>min(/BBC_TPL_HP_Hardware_full/hp.hardware.hpiml,#3)&gt;5</expression>
+                            <name>HP IML too many hpasmcli processes</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                        <trigger>
+                            <uuid>b89afa28120b49a6a4e62cc856118f26</uuid>
+                            <expression>nodata(/BBC_TPL_HP_Hardware_full/hp.hardware.hpiml,120m)=1</expression>
+                            <name>No HP IML data</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>9de7d5b636194f64a284de2589b76d45</uuid>
+                    <name>HP IML hpasmcli process number</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[hpasmcli]</key>
+                    <delay>15m</delay>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>HP Hardware IML</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
         </template>
     </templates>
-    <triggers>
-        <trigger>
-            <expression>{BBC_TPL_HP_Hardware_full:hp.hardware.hpiml.min(#3)}&gt;0</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>HP IML isn't clean</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_HP_Hardware_full:hp.hardware.hpiml.min(#3)}&gt;5</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>HP IML too many hpasmcli processes</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>2</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>{BBC_TPL_HP_Hardware_full:hp.hardware.hpiml.nodata(120m)}=1</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>No HP IML data</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-    </triggers>
 </zabbix_export>

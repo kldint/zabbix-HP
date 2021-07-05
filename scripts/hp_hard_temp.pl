@@ -32,6 +32,7 @@ sub getInfo {
     if (/^\s*(\d+)\s*Basic Sensor\s+(Ambient|CPU \(\d+\)|Memory Board|System Board|Pwr\. Supply Bay|Processor Zone|I\/O Zone|Chassis)\s+(\S+)\s+\d+F\/\s*(\d+)C\s+\d+F\/\s*(\d+)C/) {
       push @tempinfos, {
         'id'        => $1,
+	'slot'	    => $1,
         'location'  => $2,
         'status'    => $3,
         'current'   => $4,
@@ -47,14 +48,14 @@ getInfo();
 if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display discovery informations
 
-  print "- hp.hardware.temp.discovery {\"data\":[";
+  print "{\"data\":[";
 
   foreach my $tempinfo ( @tempinfos ) {
     print "," if not $first;
     $first = 0;
 
     print "{\"{#TEMPID}\":\"temp".$tempinfo->{id}."\",";
-    print "\"{#TEMPSLOT}\":\"".$tempinfo->{id}."\",";
+    print "\"{#TEMPSLOT}\":\"".$tempinfo->{slot}."\",";
     print "\"{#TEMPLOCATION}\":\"".$tempinfo->{location}."\",";
     print "\"{#TEMPTHRES}\":\"".$tempinfo->{threshold}."\"}";
   }
@@ -62,10 +63,12 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
 
 }else{
   # Display trappers metrics
-
-  foreach my $tempinfo ( @tempinfos ) {
-    print "- hp.hardware.temp[$tempinfo->{id},status] $tempinfo->{status}\n";
-    print "- hp.hardware.temp[$tempinfo->{id},current] $tempinfo->{current}\n";
+  if ( $ARGV[0] and $ARGV[1] and $ARGV[2] and $ARGV[0] eq "get") {
+    foreach my $tempinfo ( @tempinfos ) {
+      if($tempinfo->{slot} == $ARGV[1]) {
+        if(exists($tempinfo->{$ARGV[2]})) { print $tempinfo->{$ARGV[2]}; }
+	last;
+      }
+    }
   }
-
 }

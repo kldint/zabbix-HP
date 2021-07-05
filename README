@@ -4,11 +4,16 @@ original templates : https://github.com/jbfavre/python-zabbix/tree/master/templa
 script were not modified a lot
 templates however has been added a few triggers and items rules
 
+uncompress scripts to /etc/zabbix/scripts/
+uncompress zabbix-agent.conf.d to zabbix config dir: usually /etc/zabbix/zabbix-agent.conf.d/
+uncompress sudoers.d content to /etc/sudoers.d/
+
+To install the HP tools, refers to HP https://downloads.linux.hpe.com/SDR/project/mcp/, apt file is given in sources.list.d folder
 Require : 
 - hpasmcli (provided by hp-health)
 - hpssacli (provided by hpssacli)
 
-Perls scripts must be run trough zabbix-sender using a crontab (see hp_hard.cron)
+HP RAID script is slow, it may be required to change timeout to Timeout=10 in your zabbix agent config (/etc/zabbix/zabbix-agent.conf).
 
 regexp must be added to http://yourzabbixserver/zabbix/adm.regexps.php (administration > general > regular expression) or discovery rules wont work (=99% of the templates)
 There is however no way to export those regexp ... so you have to add them by hand
@@ -21,6 +26,7 @@ HP Hardware Raid physical drive for discovery	regexp=^(physicaldrive)[0-9]I:[0-9
 HP Hardware Temperature for discovery		regexp=^(temp)[0-9]+$				[Result is TRUE] [case sensitive=no]
 
 You can activate templates individually on your hosts, or just activate "BBC Template - HP Hardware" which is linked to the other ones
+Templates are located into templates dir.
 
 You might need to update the regexp for fan and temp to work properly in :
 - hp_hard_fan.pl line 37

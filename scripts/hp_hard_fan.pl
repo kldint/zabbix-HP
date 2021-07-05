@@ -36,6 +36,7 @@ sub getInfo {
 #    if (/#(\d+)\s+(\w+)\s+(Yes)\s+(\w+)\s+(\d+)%\s+(Yes|No)\s+(\d+)\s+(Yes|No)/) {
     if (/#(\d+)\s+(\w+)\s+(Yes)\s+(\w+)\s+(\d+)%\s+(Yes|No|N\/A)\s+(N\/A|\d+)\s+(Yes|No)/) {
       push @faninfos, {
+	'id' => $1,
         'slot' => $1,
         'location' => $2,
         'present' => $3,
@@ -58,13 +59,13 @@ getInfo();
 if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display discovery informations
 
-  print "- hp.hardware.fan.discovery {\"data\":[";
+  print "{\"data\":[";
 
   foreach my $faninfo ( @faninfos ) {
     print "," if not $first;
     $first = 0;
 
-    print "{\"{#FANID}\":\"fan".$faninfo->{slot}."\",";
+    print "{\"{#FANID}\":\"fan".$faninfo->{id}."\",";
     print "\"{#FANSLOT}\":\"".$faninfo->{slot}."\",";
     print "\"{#FANLOCATION}\":\"".$faninfo->{location}."\",";
     print "\"{#FANHOTPLUG}\":\"".$faninfo->{hotplug}."\",";
@@ -73,12 +74,13 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   }
   print "]}\n";
 
-}else{
-  # Display trappers metrics
-
-  foreach my $faninfo ( @faninfos ) {
-    print "- hp.hardware.fan[$faninfo->{slot},speed] $faninfo->{speed}\n";
-    print "- hp.hardware.fan[$faninfo->{slot},speed_percent] $faninfo->{speed_percent}\n";
+} else {
+  if ( $ARGV[0] and $ARGV[1] and $ARGV[2] and $ARGV[0] eq "get") {
+    foreach my $faninfo ( @faninfos ) {
+      if($faninfo->{slot} == $ARGV[1]) {
+        if(exists($faninfo->{$ARGV[2]})) { print $faninfo->{$ARGV[2]}; }
+	last;
+      }
+    }
   }
-
 }

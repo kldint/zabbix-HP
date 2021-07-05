@@ -61,7 +61,7 @@ getInfo();
 if ( $ARGV[0] and $ARGV[0] eq "discovery") {
   # Display discovery informations
 
-  print "- hp.hardware.power.discovery {\"data\":[";
+  print "{\"data\":[";
 
   foreach my $powerinfo ( @powerinfos ) {
     print "," if not $first;
@@ -77,10 +77,12 @@ if ( $ARGV[0] and $ARGV[0] eq "discovery") {
 
 }else{
   # Display trappers metrics
-
-  foreach my $powerinfo ( @powerinfos ) {
-    print "- hp.hardware.power[$powerinfo->{slot},status] $powerinfo->{Condition}\n";
-    #print "- hp.hardware.power[$powerinfo->{slot},watts] $powerinfo->{Power}\n";
+  if ( $ARGV[0] and $ARGV[1] and $ARGV[2] and $ARGV[0] eq "get") {
+    foreach my $powerinfo ( @powerinfos ) {
+      if($powerinfo->{slot} == $ARGV[1]) {
+        if(exists($powerinfo->{$ARGV[2]})) { print $powerinfo->{$ARGV[2]}; }
+	last;
+      }
+    }
   }
-
 }

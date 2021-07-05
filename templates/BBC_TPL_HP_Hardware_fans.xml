@@ -1,197 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.2</version>
-    <date>2017-08-07T06:57:15Z</date>
+    <version>5.4</version>
+    <date>2021-07-05T18:36:10Z</date>
     <groups>
         <group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
             <name>Templates</name>
         </group>
     </groups>
     <templates>
         <template>
+            <uuid>93a2c66c6e2b499c93335b19086bba43</uuid>
             <template>BBC_TPL_HP_Hardware_fans</template>
-            <name>BBC Template - HP Hardware Fans</name>
-            <description/>
+            <name>BBC Template - HP Hardware Fans by Zabbix agent active custom</name>
             <groups>
                 <group>
                     <name>Templates</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>HP Hardware Fan</name>
-                </application>
-            </applications>
-            <items/>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>3af5b87270e745ada842f0cf76dcce86</uuid>
                     <name>HP hardware fans discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>hp.hardware.fan.discovery</key>
-                    <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <delay_flex/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
+                    <delay>1d</delay>
                     <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
                         <conditions>
                             <condition>
                                 <macro>{#FANID}</macro>
                                 <value>@HP Hardware Fans for discovery</value>
-                                <operator>8</operator>
                                 <formulaid>A</formulaid>
                             </condition>
                         </conditions>
                     </filter>
-                    <lifetime>7</lifetime>
+                    <lifetime>7d</lifetime>
                     <description>Discovery of hardware fans as defined in global regular expression &quot;HP Hardware Fans for discovery&quot;.</description>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>2d3807f04b4242f1863707b16c8274d9</uuid>
                             <name>Fan status for {#FANSLOT} {#FANLOCATION}</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
+                            <type>ZABBIX_ACTIVE</type>
                             <key>hp.hardware.fan[{#FANSLOT},speed]</key>
-                            <delay>0</delay>
-                            <history>7</history>
+                            <history>7d</history>
                             <trends>0</trends>
-                            <status>0</status>
-                            <value_type>1</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Fan informations:&#13;
-Slot: {#FANSLOT}&#13;
-Location: {#FANLOCATION}&#13;
-Hotplug: {#FANHOTPLUG}&#13;
-Redundant: {#FANREDUNDANT}&#13;
+                            <value_type>CHAR</value_type>
+                            <description>Fan informations:
+Slot: {#FANSLOT}
+Location: {#FANLOCATION}
+Hotplug: {#FANHOTPLUG}
+Redundant: {#FANREDUNDANT}
 Present: {#FANPRESENT}</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>HP Hardware Fan</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <application_prototypes/>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>HP Hardware Fan</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>20f4051d876c42b79d8a99e59ded5a0b</uuid>
+                                    <expression>find(/BBC_TPL_HP_Hardware_fans/hp.hardware.fan[{#FANSLOT},speed],,&quot;like&quot;,&quot;NORMAL&quot;)=0</expression>
+                                    <name>Fan status for {#FANSLOT} {#FANLOCATION} is not NORMAL</name>
+                                    <priority>HIGH</priority>
+                                    <description>Fan {#FANSLOT} {#FANLOCATION} does not run properly
+
+if reported string = NORMAL =&gt; ok, do nothing
+if reported string != NORMAL =&gt; fire alert</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>8053d9c3fc594e7fb1f04b701898e142</uuid>
                             <name>Relative speed for fan {#FANSLOT} {#FANLOCATION}</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <multiplier>0</multiplier>
-                            <snmp_oid/>
+                            <type>ZABBIX_ACTIVE</type>
                             <key>hp.hardware.fan[{#FANSLOT},speed_percent]</key>
-                            <delay>0</delay>
-                            <history>7</history>
-                            <trends>365</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>7d</history>
                             <units>%</units>
-                            <delta>0</delta>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <data_type>0</data_type>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
-                            <description>Fan informations:&#13;
-Slot: {#FANSLOT}&#13;
-Location: {#FANLOCATION}&#13;
-Hotplug: {#FANHOTPLUG}&#13;
-Redundant: {#FANREDUNDANT}&#13;
+                            <description>Fan informations:
+Slot: {#FANSLOT}
+Location: {#FANLOCATION}
+Hotplug: {#FANHOTPLUG}
+Redundant: {#FANREDUNDANT}
 Present: {#FANPRESENT}</description>
-                            <inventory_link>0</inventory_link>
-                            <applications>
-                                <application>
-                                    <name>HP Hardware Fan</name>
-                                </application>
-                            </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <application_prototypes/>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>HP Hardware Fan</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{BBC_TPL_HP_Hardware_fans:hp.hardware.fan[{#FANSLOT},speed].str(NORMAL)}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Fan status for {#FANSLOT} {#FANLOCATION} is not NORMAL</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Fan {#FANSLOT} {#FANLOCATION} does not run properly&#13;
-&#13;
-if reported string = NORMAL =&gt; ok, do nothing&#13;
-if reported string != NORMAL =&gt; fire alert</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
                 </discovery_rule>
             </discovery_rules>
-            <httptests/>
-            <macros/>
-            <templates/>
-            <screens/>
         </template>
     </templates>
 </zabbix_export>
